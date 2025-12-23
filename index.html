@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Web App</title>
+
+<style>
+:root {
+  --bg: #020024;
+  --card: rgba(255,255,255,0.12);
+  --text: #fff;
+  --accent: #00d4ff;
+}
+
+.light {
+  --bg: #f1f5f9;
+  --card: #ffffff;
+  --text: #020024;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  transition: 0.4s;
+}
+
+/* CARD */
+.card {
+  width: 360px;
+  padding: 30px;
+  border-radius: 20px;
+  background: var(--card);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 40px rgba(0,212,255,0.35);
+  animation: pop 0.8s ease;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+p {
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), #38bdf8);
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px rgba(0,212,255,0.8);
+}
+
+.toggle {
+  text-align: center;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* DASHBOARD */
+.dashboard {
+  display: none;
+  text-align: center;
+}
+
+.dashboard h2 {
+  margin-bottom: 10px;
+}
+
+/* LOADING */
+.loader {
+  display: none;
+  margin: 20px auto;
+  width: 30px;
+  height: 30px;
+  border: 4px solid rgba(255,255,255,0.3);
+  border-top: 4px solid var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* ANIM */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  background: var(--accent);
+  color: #020024;
+  padding: 10px 20px;
+  border-radius: 10px;
+  opacity: 0;
+  transition: 0.4s;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="login">
+  <h1>👑 Login king</h1>
+  <p>Masuk ke sistem </p>
+
+  <input type="text" id="user" placeholder="Username">
+  <input type="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+  <div class="loader" id="loader"></div>
+
+  <div class="toggle" onclick="toggleTheme()">🌙 / ☀️ Mode</div>
+</div>
+
+<div class="card dashboard" id="dash">
+  <h2>🔥 Selamat Datang</h2>
+  <p id="welcome"></p>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function login() {
+  const user = document.getElementById("user").value;
+  if (!user) return showToast("Username kosong ❌");
+
+  document.getElementById("loader").style.display = "block";
+
+  setTimeout(() => {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("dash").style.display = "block";
+    document.getElementById("welcome").innerText =
+      "Halo " + user + ", kamu naik ke LEVEL DEWA 🗿";
+    showToast("Login berhasil ✅");
+  }, 1200);
+}
+
+function logout() {
+  document.getElementById("dash").style.display = "none";
+  document.getElementById("login").style.display = "block";
+  showToast("Logout sukses 👋");
+}
+
+function toggleTheme() {
+  document.body.classList.toggle("light");
+  showToast("Tema diganti 🎨");
+}
+
+function showToast(msg) {
+  const toast = document.getElementById("toast");
+  toast.innerText = msg;
+  toast.style.opacity = 1;
+
+  setTimeout(() => {
+    toast.style.opacity = 0;
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
